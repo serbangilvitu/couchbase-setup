@@ -6,7 +6,11 @@ curl -O https://packages.couchbase.com/releases/couchbase-release/couchbase-rele
 sudo dpkg -i ./couchbase-release-1.0-amd64.deb
 sudo apt-get update
 
-# 
+# Disable THP
+# https://docs.couchbase.com/server/current/install/thp-disable.html
+sudo cp disable-thp.sh /etc/init.d/disable-thp
+
+# Configure SWAP 
 # https://docs.couchbase.com/server/7.0/install/install-swap-space.html
 sudo sh -c 'echo 0 > /proc/sys/vm/swappiness'
 sudo cp -p /etc/sysctl.conf /etc/sysctl.conf.`date +%Y%m%d-%H:%M`
