@@ -31,9 +31,13 @@ sudo apt-get update
 
 # Disable THP
 # https://docs.couchbase.com/server/current/install/thp-disable.html
-sudo cp disable-thp.sh /etc/init.d/disable-thp
-sudo chmod 755 /etc/init.d/disable-thp
-sudo update-rc.d disable-thp defaults
+if [[ "$(cat /sys/kernel/mm/transparent_hugepage/enabled)" != "always [madvise] never" ]]; then
+  sudo cp disable-thp.sh /etc/init.d/disable-thp
+  sudo chmod 755 /etc/init.d/disable-thp
+  sudo update-rc.d disable-thp defaults
+else
+  echo "THP disabled, skipping"
+fi
 
 # Configure swap
 # https://docs.couchbase.com/server/7.0/install/install-swap-space.html
